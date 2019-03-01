@@ -1,19 +1,19 @@
-import log from '../utils/log'
-import captureAframe from '../chrome/captureAframe'
+import log from '../utils/log';
+import captureAframe from '../chrome/captureAframe';
 
 export default async function handler(event, context, callback) {
-  const queryStringParameters = event.queryStringParameters || {}
-  const { hashId = 'W59XmZ5YvGn' } = queryStringParameters
+  const queryStringParameters = event.queryStringParameters || {};
+  const { hashId = 'W59XmZ5YvGn' } = queryStringParameters;
 
-  let data
+  let data;
 
-  log('Capturing video for', hashId)
+  log('Capturing video for', hashId);
 
   try {
-    data = await captureAframe(hashId)
+    data = await captureAframe(hashId);
   } catch (error) {
-    console.error('Error capturing video for', hashId, error)
-    return callback(error)
+    console.error('Error capturing video for', hashId, error);
+    return callback(error);
   }
 
   return callback(null, {
@@ -23,5 +23,5 @@ export default async function handler(event, context, callback) {
     headers: {
       'Content-Type': 'image/png',
     },
-  })
+  });
 }

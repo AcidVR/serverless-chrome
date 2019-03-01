@@ -46,6 +46,7 @@
   "dependencies": {
     "aws-sdk": "^2.410.0",
     "bufferutil": "^4.0.1",
+    "chokidar": "^2.1.2",
     "chrome-launcher": "^0.10.5",
     "chrome-remote-interface": "^0.27.1",
     "eslint": "^5.14.0",

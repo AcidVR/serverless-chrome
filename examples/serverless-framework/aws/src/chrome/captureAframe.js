@@ -111,19 +111,9 @@ export default async function captureAframe(hashId) {
       Body: stream,
       ContentType: 'video/webm',
     };
-    console.log('\n\n\n**********************************');
-    console.log(params);
-    console.log('\n\n\n**********************************');
+
     const putObjectPromise = s3.putObject(params).promise();
-    putObjectPromise
-      .then(() => {
-        console.log('Success');
-        return true;
-      }, 1000)
-      .catch((err) => {
-        console.log(err);
-        return false;
-      });
+    await putObjectPromise();
   };
 
   if (downloadComplete) putFile();

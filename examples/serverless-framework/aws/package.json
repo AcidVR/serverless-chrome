@@ -44,10 +44,16 @@
   },
   "homepage": "https://github.com/adieuadieu/serverless-chrome/tree/master/examples/serverless-framework/aws",
   "dependencies": {
-    "chrome-remote-interface": "0.25.3"
+    "aws-sdk": "^2.410.0",
+    "bufferutil": "^4.0.1",
+    "chrome-launcher": "^0.10.5",
+    "chrome-remote-interface": "^0.27.1",
+    "eslint": "^5.14.0",
+    "file-system": "^2.2.2",
+    "utf-8-validate": "^5.0.2"
   },
   "devDependencies": {
-    "ava": "0.23.0",
+    "ava": "^1.2.1",
     "babel-core": "6.26.0",
     "babel-loader": "7.1.2",
     "babel-plugin-transform-object-entries": "1.0.0",
@@ -55,14 +61,21 @@
     "babel-preset-env": "1.6.1",
     "babel-preset-stage-3": "6.24.1",
     "babel-register": "6.26.0",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-react-app": "^2.1.0",
+    "eslint-plugin-ava": "^5.1.1",
+    "eslint-plugin-flowtype": "^2.50.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.10.0",
     "serverless": "1.24.1",
     "serverless-plugin-chrome": "1.0.0-55",
     "serverless-webpack": "4.0.0",
     "webpack": "3.8.1"
   },
   "ava": {
-    "require": "babel-register",
-    "babel": "inherits"
+    "require": "babel-register"
   },
   "babel": {
     "sourceMaps": true,

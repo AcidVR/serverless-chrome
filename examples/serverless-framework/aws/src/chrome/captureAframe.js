@@ -113,7 +113,7 @@ export default async function captureAframe(hashId) {
     };
 
     const putObjectPromise = s3.putObject(params).promise();
-    await putObjectPromise();
+    await putObjectPromise.resolve();
   };
 
   if (downloadComplete) putFile();

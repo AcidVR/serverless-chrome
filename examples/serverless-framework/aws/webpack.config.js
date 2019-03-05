@@ -33,6 +33,9 @@ module.exports = {
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1,
     }),
+    new webpack.DefinePlugin({
+      'process.env.FLUENTFFMPEG_COV': false,
+    }),
   ],
   entry: slsw.lib.entries,
 }

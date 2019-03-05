@@ -3,7 +3,7 @@ import captureAframe from '../chrome/captureAframe';
 
 export default async function handler(event, context, callback) {
   const queryStringParameters = event.queryStringParameters || {};
-  const { hashId = 'test_2' } = queryStringParameters;
+  const { hashId = 'test_ctx_0303_958pm' } = queryStringParameters;
 
   let data;
 

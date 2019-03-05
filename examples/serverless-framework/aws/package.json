@@ -51,6 +51,7 @@
     "chrome-remote-interface": "^0.27.1",
     "eslint": "^5.14.0",
     "ffmkek": "^0.0.8",
+    "ffmpeg": "^0.0.4",
     "file-system": "^2.2.2",
     "fluent-ffmpeg": "^2.1.2",
     "utf-8-validate": "^5.0.2"

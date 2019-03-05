@@ -7,7 +7,7 @@ export default async function handler(event, context, callback) {
 
   let data;
 
-  log('Capturing video for', hashId);
+  log('Capturing video for: ', hashId);
 
   try {
     data = await captureAframe(hashId);
@@ -16,12 +16,5 @@ export default async function handler(event, context, callback) {
     return callback(error);
   }
 
-  return callback(null, {
-    statusCode: 200,
-    body: data,
-    isBase64Encoded: true,
-    headers: {
-      'Content-Type': 'image/png',
-    },
-  });
+  return callback(null, {});
 }

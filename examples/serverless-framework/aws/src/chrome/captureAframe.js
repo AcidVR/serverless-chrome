@@ -1,7 +1,9 @@
 import Cdp from 'chrome-remote-interface';
 import AWS from 'aws-sdk';
 import chokidar from 'chokidar';
-import ffmpeg from 'fluent-ffmpeg';
+import FFmkek from 'ffmkek';
+import fs from 'fs';
+
 
 function sleep(miliseconds = 1000) {
   if (miliseconds === 0) return Promise.resolve();
@@ -101,7 +103,7 @@ export default async function captureAframe(hashId) {
   async function upload(fileStream, fileName, bucketName) {
     const s3 = new AWS.S3({ apiVersion: '2006-03-01', region: 'us-east-1' });
     const params = {
-      Body: fileStream,
+      Body: fs.createReadStream(fileStream),
       Key: fileName,
       Bucket: bucketName,
       ContentType: 'video/mp4',
@@ -111,15 +113,16 @@ export default async function captureAframe(hashId) {
 
   const putFile = async () => {
     const filePath = '/tmp/download.webm';
-    const streamOut = `${hashId}.mp4`;
-    ffmpeg(filePath)
-      .videoCodec('libx264')
+    const streamOut = `/tmp/${hashId}.mp4`;
+    return new FFmkek()
+      .addInput(filePath)
       .addInput('https://www.acidvr.com/audio/yesterday.mp3')
-      .inputOption('-fflags', '+genpts')
-      .inputOption('-r', '25')
-      .output(streamOut);
-    // await upload(streamOut, `${hashId}.mp4`, 'app.acidvr.com-media-in');
+      .addOption('-fflags', '+genpts')
+      .addOption('-r', '25')
+      .save(streamOut)
+      .then(() => upload(streamOut, `${hashId}.mp4`, 'app.acidvr.com-media-in'));
   };
+
 
   if (downloadComplete) return putFile();
   return null;

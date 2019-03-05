@@ -7,7 +7,7 @@ provider:
   region: us-east-1
   environment:
     PAGE_LOAD_TIMEOUT: 20000
-    LOGGING: true
+    LOGGING: false
 
 plugins:
   - serverless-plugin-chrome

@@ -52,6 +52,7 @@
     "eslint": "^5.14.0",
     "ffmkek": "^0.0.8",
     "file-system": "^2.2.2",
+    "serverless-chrome": "AcidVR/serverless-chrome",
     "serverless-plugin-existing-s3": "^2.3.3",
     "utf-8-validate": "^5.0.2"
   },

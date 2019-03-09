@@ -51,9 +51,8 @@
     "chrome-remote-interface": "^0.27.1",
     "eslint": "^5.14.0",
     "ffmkek": "^0.0.8",
-    "ffmpeg": "^0.0.4",
     "file-system": "^2.2.2",
-    "fluent-ffmpeg": "^2.1.2",
+    "serverless-plugin-existing-s3": "^2.3.3",
     "utf-8-validate": "^5.0.2"
   },
   "devDependencies": {
@@ -74,7 +73,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.10.0",
     "serverless": "1.24.1",
-    "serverless-plugin-chrome": "1.0.0-55",
+    "AcidVR/serverless-plugin-chrome": "1.0.0-55",
     "serverless-webpack": "4.0.0",
     "webpack": "3.8.1"
   },

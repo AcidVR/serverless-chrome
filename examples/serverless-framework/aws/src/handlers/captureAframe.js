@@ -3,7 +3,7 @@ import captureAframe from '../chrome/captureAframe';
 
 export default async function handler(event, context, callback) {
   const queryStringParameters = event.queryStringParameters || {};
-  const { hashId = 'test_ctx_0303_958pm' } = queryStringParameters;
+  const { hashId = 'W59XmZ5YvGn' } = queryStringParameters;
 
   let data;
 
@@ -11,6 +11,8 @@ export default async function handler(event, context, callback) {
 
   try {
     data = await captureAframe(hashId);
+    log('Completed Capturing video');
+
   } catch (error) {
     console.error('Error capturing video for', hashId, error);
     return callback(error);

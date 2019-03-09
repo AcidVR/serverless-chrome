@@ -16,7 +16,7 @@ FORCE_NEW_BUILD=INSERT_FORCE_NEW_BUILD_HERE
 
 echo "Starting user-data script. $BROWSER $VERSION ($CHANNEL channel)"
 
-# 
+#
 # Setup CloudWatch logging
 # ref: http://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/QuickStartEC2Instance.html
 #
@@ -33,7 +33,7 @@ file = /var/log/cloud-init-output.log
 
 service awslogs start
 
-# 
+#
 # Go time (if brower and release channel are set.)
 #
 if [ -n "$CHANNEL" ] && [ -n "$BROWSER" ]; then
@@ -69,17 +69,18 @@ if [ -n "$CHANNEL" ] && [ -n "$BROWSER" ]; then
   export DOCKER_ORG
   export S3_BUCKET
   export FORCE_NEW_BUILD
-  
+
   git clone "https://github.com/adieuadieu/serverless-chrome.git"
 
   cd serverless-chrome || return
 
   # git checkout develop # in case you want to build develop branch
+  git checkout enable_swiftshader
 
   ./scripts/docker-build-image.sh "$CHANNEL" "$BROWSER" "$VERSION"
 fi
 
-# 
+#
 # Shutdown (terminate) the instance
 #
 

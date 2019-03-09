@@ -4,7 +4,6 @@ import chokidar from 'chokidar';
 import FFmkek from 'ffmkek';
 import fs from 'fs';
 
-
 function sleep(miliseconds = 1000) {
   if (miliseconds === 0) return Promise.resolve();
   return new Promise(resolve => setTimeout(() => resolve(), miliseconds));
@@ -12,7 +11,7 @@ function sleep(miliseconds = 1000) {
 
 async function nodeAppears(client, selector) {
   // browser code to register and parse mutations
-  const browserCode = (selector) => new Promise((resolve) => {
+  const browserCode = selector => new Promise((resolve) => {
     new MutationObserver((mutations, observer) => {
       // add all the new nodes
       const nodes = [];
@@ -21,6 +20,7 @@ async function nodeAppears(client, selector) {
       });
       // fulfills if at least one node matches the selector
       if (nodes.find(node => node.matches(selector))) {
+        console.log('node.matches');
         observer.disconnect();
         resolve();
       }
@@ -52,6 +52,7 @@ export default async function captureAframe(hashId) {
 
   watcher.on('add', (path) => {
     if (path.indexOf('.webm') > 0) {
+      console.log('downloadComplete');
       downloadComplete = true;
     }
   });
@@ -66,17 +67,30 @@ export default async function captureAframe(hashId) {
   const [tab] = await Cdp.List();
   const client = await Cdp({ host: '127.0.0.1', target: tab });
 
-  const { Network, Page, Runtime } = client;
+  const {
+    Network, Page, Runtime,
+  } = client;
+
+  Runtime.consoleAPICalled((result) => {
+    console.log(result);
+  });
+
+  Runtime.exceptionThrown((result) => {
+    console.log(result);
+  });
 
   Page.loadEventFired(() => {
+    console.log('Page.loadEventFired');
     loaded = true;
   });
 
-  await Promise.all([Network.enable(), Page.enable()]);
+  await Promise.all([Network.enable(), Page.enable(), Runtime.enable()]);
 
   await Page.navigate({
     url: `https://www.acidvr.com/liquidlyrics/capture/${hashId}.html`,
   });
+
+  console.log('Downloaded page');
 
   await Page.loadEventFired();
   await loading();
@@ -88,9 +102,13 @@ export default async function captureAframe(hashId) {
 
   // wait for the element to be present
   await nodeAppears(client, 'a#download');
+  console.log('nodeAppears');
+
   await Runtime.evaluate({
     expression: 'document.querySelector(\'a#download\').click()',
   });
+
+  console.log('Download link ready.');
 
   let waitTime = 0;
   while (!downloadComplete && waitTime < 60000) {
@@ -101,6 +119,7 @@ export default async function captureAframe(hashId) {
   }
 
   async function upload(fileStream, fileName, bucketName) {
+    console.log('Uploading video.');
     const s3 = new AWS.S3({ apiVersion: '2006-03-01', region: 'us-east-1' });
     const params = {
       Body: fs.createReadStream(fileStream),
@@ -111,16 +130,17 @@ export default async function captureAframe(hashId) {
     await s3.putObject(params).promise();
   }
 
+  const bucketName = 'app.acidvr.com-media-in';
   const putFile = async () => {
     const filePath = '/tmp/download.webm';
     const streamOut = `/tmp/${hashId}.mp4`;
     return new FFmkek()
       .addInput(filePath)
-      .addInput('https://www.acidvr.com/audio/yesterday.mp3')
+      .addInput(`${bucketName}/${hashId}.mp3`)
       .addOption('-fflags', '+genpts')
       .addOption('-r', '25')
       .save(streamOut)
-      .then(() => upload(streamOut, `${hashId}.mp4`, 'app.acidvr.com-media-in'));
+      .then(() => upload(streamOut, `${hashId}.mp4`, bucketName));
   };
 
 

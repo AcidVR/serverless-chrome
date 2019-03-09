@@ -3,46 +3,53 @@ service: serverless-chrome-examples
 provider:
   name: aws
   runtime: nodejs8.10
+  iamRoleStatements:
+     -  Effect: "Allow"
+        Action:
+          - "s3:GetBucketNotification"
+          - "s3:PutBucketNotification"
+        Resource:
+          Fn::Join:
+            - ""
+            - - "arn:aws:s3:::app.acidvr.com"
   stage: dev
   region: us-east-1
   environment:
     PAGE_LOAD_TIMEOUT: 20000
-    LOGGING: false
+    LOGGING: true
 
 plugins:
   - serverless-plugin-chrome
   - serverless-webpack
+  - serverless-plugin-existing-s3
 
 custom:
   chrome:
     flags:
       - --window-size=1280,1696 # Letter size
       - --hide-scrollbars
+      - --enable-accelerated-2d-canvas
+      - --allow-hidden-media-playback
+      - --enable-usermedia-screen-capturing
+      - --disable-setuid-sandbox
+      - --enable-webgl
+      - --mute-audio
+      - --disable-breakpad
+      - --ignore-gpu-blacklist
+      - --headless
+    functions:
+      - captureAframe
 
 functions:
   captureAframe:
-    description: Headless Chrome Serverless-framework capture video from A-frame scene
+    description: Capture A-frame scene video
     memorySize: 2048
-    timeout: 30
+    timeout: 300
     handler: src/handlers/captureAframe.default
     events:
-      - http:
-          path: captureaframe
-          method: get
-
-resources:
-  Resources:
-    ApiGatewayRestApi:
-      Properties:
-        BinaryMediaTypes:
-          - "*/*"
-
-    # Enable X-Ray tracing on Lambda functions
-    # ScreenshotLambdaFunction:
-    #   Properties:
-    #     TracingConfig:
-    #       Mode: Active
-    # PdfLambdaFunction:
-    #   Properties:
-    #     TracingConfig:
-    #       Mode: Active
+      - existingS3:
+          bucket: app.acidvr.com
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: liquidlyrics/capture
+            - suffix: .html

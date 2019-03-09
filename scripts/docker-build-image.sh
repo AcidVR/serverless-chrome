@@ -36,7 +36,7 @@ build() {
   fi
 
   cd "$PACKAGE_DIRECTORY/builds/$BUILD_NAME"
-    
+
   if "$PROJECT_DIRECTORY/scripts/docker-image-exists.sh" \
       "$DOCKER_ORG/$DOCKER_IMAGE" "$VERSION" \
     && [ -z "$FORCE_NEW_BUILD" ]; then
@@ -80,6 +80,8 @@ build() {
 
     # Extract the binary produced in the build
     docker cp "$DOCKER_IMAGE-build:/bin/headless-$BUILD_NAME" dist/
+    docker cp "$DOCKER_IMAGE-build:/build/chromium/src/out/Headless/" dist/
+
     docker stop "$DOCKER_IMAGE-build"
 
     # Create the public Docker image
@@ -117,8 +119,9 @@ build() {
       S3_OBJECT_URI="s3://$S3_BUCKET/$BUILD_NAME/$CHANNEL/$ZIPFILE"
 
       (
-        cd dist
-        zip -9 -D "$ZIPFILE" "headless-$BUILD_NAME"
+        # cd dist
+        # zip -9 -D "$ZIPFILE" "headless-$BUILD_NAME"
+        zip -9 -D "$ZIPFILE" dist
       )
 
       aws s3 \

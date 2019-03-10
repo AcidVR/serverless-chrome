@@ -159,7 +159,6 @@ export default class ServerlessChrome {
               : undefined,
         ...customPluginOptions,
         flags: customPluginOptions.flags || [],
-        chromePath: this.webpack ? '/var/task/headless-chromium' : undefined,
       }
 
       // Read in the wrapper handler code template

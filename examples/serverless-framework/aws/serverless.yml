@@ -19,9 +19,10 @@ provider:
     LOGGING: true
 
 plugins:
-  - serverless-plugin-chrome
-  - serverless-webpack
-  - serverless-plugin-existing-s3
+  localPath: ./node_modules/serverless-chrome
+  modules:
+    - serverless-webpack
+    - serverless-plugin-existing-s3
 
 custom:
   chrome:
@@ -36,7 +37,6 @@ custom:
       - --mute-audio
       - --disable-breakpad
       - --ignore-gpu-blacklist
-      - --headless
     functions:
       - captureAframe
 

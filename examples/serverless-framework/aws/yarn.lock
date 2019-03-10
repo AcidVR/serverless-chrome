@@ -5097,7 +5097,7 @@ serialize-error@^2.1.0:
 
 serverless-chrome@AcidVR/serverless-chrome:
   version "1.0.0-55"
-  resolved "https://codeload.github.com/AcidVR/serverless-chrome/tar.gz/e8c0532489949ca8479df8b45b05b1306fcc8a39"
+  resolved "https://codeload.github.com/AcidVR/serverless-chrome/tar.gz/42025476a8fcecb39d617b9049b09dfb40987a62"
 
 serverless-plugin-existing-s3@^2.3.3:
   version "2.3.3"

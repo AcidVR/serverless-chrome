@@ -19,10 +19,9 @@ provider:
     LOGGING: true
 
 plugins:
-  localPath: ./node_modules/serverless-chrome
-  modules:
-    - serverless-webpack
-    - serverless-plugin-existing-s3
+  - serverless-plugin-chrome
+  - serverless-webpack
+  - serverless-plugin-existing-s3
 
 custom:
   chrome:
@@ -32,11 +31,9 @@ custom:
       - --enable-accelerated-2d-canvas
       - --allow-hidden-media-playback
       - --enable-usermedia-screen-capturing
-      - --disable-setuid-sandbox
       - --enable-webgl
-      - --mute-audio
-      - --disable-breakpad
       - --ignore-gpu-blacklist
+      - --use-gl=swiftshader
     functions:
       - captureAframe
 

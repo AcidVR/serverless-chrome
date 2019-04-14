@@ -26,13 +26,9 @@ plugins:
 custom:
   chrome:
     flags:
-      - --window-size=1280,1696 # Letter size
+      - --window-size=1920,1080 # Letter size
       - --hide-scrollbars
-      - --enable-accelerated-2d-canvas
-      - --allow-hidden-media-playback
-      - --enable-usermedia-screen-capturing
       - --enable-webgl
-      - --ignore-gpu-blacklist
       - --use-gl=swiftshader
     functions:
       - captureAframe

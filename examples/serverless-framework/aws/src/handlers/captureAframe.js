@@ -1,18 +1,17 @@
 import log from '../utils/log';
 import captureAframe from '../chrome/captureAframe';
 
-export default async function handler(event, context, callback) {
-  const queryStringParameters = event.queryStringParameters || {};
-  const { hashId = 'W59XmZ5YvGn' } = queryStringParameters;
+// return basename without extension
+const basename = path => path.split('/').reverse()[0].split('.')[0];
 
-  let data;
+export default async function handler(event, context, callback) {
+  const hashId = 'W59XmZ5YvGn'; // basename(event.Records[0].s3.object.key);
 
   log('Capturing video for: ', hashId);
 
   try {
-    data = await captureAframe(hashId);
+    await captureAframe(hashId);
     log('Completed Capturing video');
-
   } catch (error) {
     console.error('Error capturing video for', hashId, error);
     return callback(error);
